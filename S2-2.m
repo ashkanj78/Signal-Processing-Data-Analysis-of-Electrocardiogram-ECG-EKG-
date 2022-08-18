@@ -1,0 +1,15 @@
+Fs=500;
+t=0:1/Fs:20-1/Fs;
+tp=0:1/Fs:1-1/Fs;
+V=fftshift(fft(val));
+L=length(val);
+f=Fs*((-L/2):L/2-1)/L;
+%[M,I]=max(V);
+%V(I-10:I+10)=0;
+%V([I+40:10000 1:I-40])=0; 
+Lowpass_filter = ~((0.5<=f<=2) | (-0.5>=f>=-2));
+Lowpass_filter((0.5<=f & f<=2) | (-0.5>=f & f>=-2)) = 1;
+Z=V.*Lowpass_filter;
+plot(f,abs(Z)/L);
+%z=ifftshift(ifft(Z));
+%plot(t,real(z));
